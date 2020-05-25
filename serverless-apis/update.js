@@ -1,5 +1,5 @@
-import handler from "./libs/handler-lib";
-import dynamoDb from "./libs/connections/dynamoDb";
+import handler from "../libs/handler-lib";
+import dynamoDb from "../libs/connections/dynamoDb";
 
 export const main = handler(async (event, context) => {
     const data = JSON.parse(event.body);
