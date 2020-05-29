@@ -45,6 +45,9 @@ Session.vim
 .webpack
 .serverless
 
+## Localstack
+.localstack
+
 # env
 env.yml
 .env

@@ -9,12 +9,30 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-localstack
+
+custom:
+  localstack:
+    host: http://localhost
+    stages:
+      - dev
+    endpoints:
+    DynamoDB: http://localhost:4569
+    Lambda: http://localhost:4574
+    S3: http://localhost:4572
+  lambda:
+    mountCode: True
+    debug: true
+  stages:
+    - dev
+    - prod
+  
 
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: prod
-  region: ap-south-1
+  stage: dev
+  region: us-east-1
 
 environment:
   tableName: notes
@@ -30,7 +48,7 @@ iamRoleStatements:
       - dynamodb:PutItem
       - dynamodb:UpdateItem
       - dynamodb:DeleteItem
-    Resource: "arn:aws:dynamodb:ap-south-1:*:*"
+    Resource: "*"
 
 resources:
   - ${file(resources/api-gateway-errors.yml)}
@@ -60,7 +78,7 @@ functions:
           path: notes
           method: get
           cors: true
-          authorizer: aws_iam
+
   
   update:
     handler: serverless-apis/update.main
@@ -88,3 +106,4 @@ functions:
           method: post
           cors: true
           authorizer: aws_iam
+      

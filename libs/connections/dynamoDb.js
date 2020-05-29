@@ -7,7 +7,7 @@ AWS.config.update({
     logger: process.stdout
 });
 
-const client = new AWS.DynamoDB.DocumentClient({ endpoint: 'http://localhost::4563' });
+const client = new AWS.DynamoDB.DocumentClient({ endpoint: `http://${process.env.LOCALSTACK_HOSTNAME}:4569` });
 
 export default {
     get: (params) => client.get(params).promise(),
